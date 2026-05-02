@@ -1,0 +1,158 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
+import { FcGallery } from "react-icons/fc";
+import { FaEdit } from "react-icons/fa";
+import { useUserIcon } from "../../hooks/useUserIcon";
+import { useState } from "react";
+// import { axiosInstance } from "../../components/utility/axiosInstance";
+// import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { updateProfilePic } from "../../store/slice/user/userSlice";
+import {
+  setUserAboutThunk,
+  updateProfilePicThunk,
+} from "../../store/slice/user/userThunk";
+import { ButtonLoading } from "../../components/utility/ButtonLoading";
+import { setAboutEditBtn } from "../../store/slice/user/userSlice";
+
+export const Profile = () => {
+  const dispatch = useDispatch();
+  useFetchUserProfile();
+
+  const { userProfile } = useSelector((state) => state.userSlice);
+  const { buttonLoading } = useSelector((state) => state.userSlice);
+  const [editAbout, setEditAbout] = useState(null);
+  const [aboutEditBtn, setAboutEditBtn] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+
+  if (!userProfile) return <h1 className="text-2xl text-center">Loading</h1>
+
+  const { email, firstname, lastname } = userProfile;
+
+  // const [image, setImage] = useState("");
+  // console.log("image", image);
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    setProfilePic(file);
+    // setImage(URL.createObjectURL(file));
+  };
+
+  const handleEditBtn = (e) => {
+    e.preventDefault();
+    setAboutEditBtn(true);
+  };
+  const handleAboutOnchange = (e) => {
+    setEditAbout(e.target.value);
+  };
+
+  const handleAboutSubmit = (e) => {
+    console.log("press");
+
+    e.preventDefault();
+    if (!editAbout) return;
+    // console.log(editAbout);
+
+    dispatch(setUserAboutThunk({ about: editAbout }));
+    setAboutEditBtn(false);
+  };
+
+  const handleProfilePicSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      console.log("hello");
+
+      if (!profilePic) return;
+
+      const formData = new FormData(); // Here we use FormData because we send image file to backend image file is binary
+      formData.append("image", profilePic);
+
+      // const res = await axiosInstance.post("/uploadProfilePic", formData, {
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // });
+      // console.log("hiii");
+      // console.log(res.data.responseData);
+      dispatch(updateProfilePicThunk(formData));
+    } catch (error) {
+      console.log("image update fail", error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className=" w-2xl p-2.5 bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% flex flex-col gap-2 items-center justify-center rounded-md">
+        <div className=" relative group rounded-2x flex flex-col justify-center items-center">
+          {userProfile?.profilePic && (
+            <img
+              className=" w-40 h-40 rounded-2xl bg-red-500 object-cover"
+              src={userProfile?.profilePic}
+              alt="ProfilePicture"
+            />
+          )}
+          <form onSubmit={handleProfilePicSubmit}>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePicChange}
+              id="profilePic"
+            />
+            <label
+              htmlFor="profilePic"
+              className="cursor-pointer text-4xl absolute inset-0 flex justify-center items-center w-40 h-40 backdrop-blur-md rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"
+            >
+              <FcGallery />
+            </label>
+            <button
+              type="submit"
+              className={`bg-blue-600 rounded-md px-4 py-1 mt-2 cursor-pointer ${
+                profilePic ? "visible" : "hidden"
+              }`}
+            >
+              {buttonLoading ? <ButtonLoading /> : "Update"}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center">
+          {firstname} {lastname}
+        </p>
+        <p className="text-center">{email}</p>
+        <form
+          onSubmit={handleAboutSubmit}
+          className="w-full h-3/4 flex  flex-col justify-center items-center p-2.5"
+        >
+          <p className="text-center bg-indigo-600 rounded-md mb-2.5 w-20 m-auto m">
+            About
+          </p>
+          {aboutEditBtn ? (
+            <>
+              <textarea
+                onChange={handleAboutOnchange}
+                className="w-3/4 h-full p-2.5 border-2"
+                name=""
+                id=""
+                placeholder="write about yourself"
+              ></textarea>
+              <button
+                type="submit"
+                className="bg-indigo-700 px-3 mt-2.5 rounded-md"
+              >
+                {buttonLoading ? <ButtonLoading /> : "Update"}
+              </button>
+            </>
+          ) : (
+            <div className="w-3/4 h-full p-2.5 border flex flex-col-reverse rounded-2xl font-medium text-[19px]">
+              <p className=" break-all">{userProfile?.about}</p>
+              <button
+                className=" text-2xl flex justify-end cursor-pointer"
+                onClick={handleEditBtn}
+              >
+                <FaEdit />{" "}
+              </button>
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+};
