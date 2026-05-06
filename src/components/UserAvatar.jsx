@@ -8,7 +8,8 @@ export const UserAvatar = ({ user }) => {
   const { onlineUserId } = useSelector((state) => state.socketSlice);
   const { selectedUser } = useSelector((state) => state.userSlice);
 
-  console.log("onlineUserId", onlineUserId);
+  // console.log("unreadCount", unreadCount.responseData);
+  // console.log("unreadCount2", unreadCount);
 
   //for better performance (if arrays are large) use Set method
   // const { otherUsers } = useSelector((state) => state.userSlice);
@@ -43,7 +44,7 @@ export const UserAvatar = ({ user }) => {
             <span className=" text-2xl text-white">{setIcon}</span>
           ) : (
             <img
-              className=" object-cover w10 h-auto rounded-full"
+              className=" object-cover h-10  rounded-full"
               src={user?.profilePic}
               alt=""
             />
@@ -55,7 +56,7 @@ export const UserAvatar = ({ user }) => {
           <p className="text-sm">{user?.lastname}</p>
         </div>
         <div>
-          {unreadCount === 0
+          {unreadCount?.responseData?.length === 0
             ? []
             : unreadCount?.map((value) => (
                 <span>{user?._id === value._id && value.count}</span>

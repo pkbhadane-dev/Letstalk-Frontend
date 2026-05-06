@@ -52,6 +52,14 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           ),
         },
+        {
+          path: "/profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
   ],
@@ -65,9 +73,8 @@ const router = createBrowserRouter(
       v7_partialHydration: true,
       v7_skipActionErrorRevalidation: true,
     },
-  }
+  },
 );
-
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -83,5 +90,5 @@ createRoot(document.getElementById("root")).render(
         </PersistGate>
       </RouterProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

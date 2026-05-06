@@ -98,7 +98,11 @@ export const UserSidebar = () => {
           ))}
         </div>
         <div className=" bg-base-100 rounded-sm flex justify-between items-center p-0.5">
-          <UserAvatar key={userProfile?._id} user={userProfile} />
+          <UserAvatar
+            onClick={console.log("click")}
+            key={userProfile?._id}
+            user={userProfile}
+          />
 
           <form onSubmit={handleLogout}>
             <button

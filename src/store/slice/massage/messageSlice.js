@@ -65,7 +65,7 @@ const messageSlice = createSlice({
       console.log("pending");
     });
     builder.addCase(putMarkAsReadThunk.fulfilled, (state, action) => {
-      console.log(action.payload);
+      state.unreadCount = action.payload
     });
     builder.addCase(putMarkAsReadThunk.rejected, (state, action) => {
       console.log("reject");

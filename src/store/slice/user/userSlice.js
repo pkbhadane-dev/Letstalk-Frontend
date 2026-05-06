@@ -29,6 +29,8 @@ export const userSlice = createSlice({
   reducers: {
     setSelectUser: (state, action) => {
       state.selectedUser = action.payload;
+      console.log("setSelectUser", action.payload);
+      
     },
     // setAboutEditBtn: (state, action) => {
     //   console.log(action.payload);
