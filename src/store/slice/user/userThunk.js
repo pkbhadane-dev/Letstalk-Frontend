@@ -72,10 +72,8 @@ export const getOtherUsersThunk = createAsyncThunk(
     try {
       const response = await axiosInstance.get("/otherUsers");
       // console.log(response);
-
       return response?.data;
     } catch (error) {
-      console.log(error);
       const errorMassege = error?.response?.data?.errors[0]?.msg; //validation error
       const customErrMessage = error?.response?.data?.errors; // custom error
       const networkError = error?.message;

@@ -6,7 +6,7 @@ import {
   userLogoutThunk,
 } from "../store/slice/user/userThunk";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUnreadMessageCountThunk } from "../store/slice/massage/messageThunk";
 import { getSocket, initializeSocket } from "../store/slice/socket/socket";
 import {
@@ -18,6 +18,7 @@ import { persistor } from "../store/store";
 export const UserSidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState(null);
   const { otherUsers } = useSelector((state) => state.userSlice);
   const { userProfile } = useSelector((state) => state.userSlice);
   const { selectedUser } = useSelector((state) => state.userSlice);
@@ -55,13 +56,20 @@ export const UserSidebar = () => {
     const response = await dispatch(userLogoutThunk());
 
     await persistor.purge();
-    
+
     if (response?.payload.status === 200) {
       const socket = getSocket();
       if (socket) socket.disconnect();
       navigate("/login");
     }
   };
+
+  const handleSearchInput = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+   
+  };
+
   return (
     <>
       <div
@@ -76,6 +84,7 @@ export const UserSidebar = () => {
           <label className="input w-full">
             <MdPersonSearch className="text-2xl" />
             <input
+              onChange={handleSearchInput}
               className="text-[17px]"
               type="search"
               required
@@ -84,9 +93,11 @@ export const UserSidebar = () => {
           </label>
         </div>
         <div className="h-full flex flex-col gap-1.5 overflow-auto bg-base-300 rounded-sm">
-          {otherUsers?.map((user) => (
-            <UserAvatar key={user._id} user={user} />
-          ))}
+          {otherUsers?.map((user) => 
+            user.firstname.toLowerCase().includes(searchInput?.toLowerCase() || "") ? (
+              <UserAvatar key={user._id} user={user} />
+            ) : null
+          )}
         </div>
         <div className=" bg-base-100 rounded-sm flex justify-between items-center p-0.5">
           <UserAvatar key={userProfile?._id} user={userProfile} />
