@@ -23,6 +23,8 @@ export const UserSidebar = () => {
   const { selectedUser } = useSelector((state) => state.userSlice);
   const { logoutResponse } = useSelector((state) => state.userSlice);
   const { token } = useSelector((state) => state.userSlice);
+  const { openMsgContainer } = useSelector((state) => state.messageSlice);
+
   const fetchData = async () => {
     try {
       dispatch(getOtherUsersThunk());
@@ -39,16 +41,6 @@ export const UserSidebar = () => {
     }
   };
 
-  //  fetchData()
-  // useEffect(() => {
-  //   const socket = getSocket();
-
-  //   socket.on("unreadMsgCount", (unreadMsgCount) => {
-  //     console.log(unreadMsgCount);
-  //     dispatch(getUnreadMsgCount(unreadMsgCount));
-  //   });
-  // }, []);
-
   useEffect(() => {
     fetchData();
     fetchCount();
@@ -63,26 +55,25 @@ export const UserSidebar = () => {
     const response = await dispatch(userLogoutThunk());
 
     await persistor.purge();
-    console.log(response.payload.status);
-
+    
     if (response?.payload.status === 200) {
       const socket = getSocket();
       if (socket) socket.disconnect();
-      console.log("loged out");
-
       navigate("/login");
     }
   };
   return (
     <>
-      <div className="bg-blue-300 w-[21rem] p-2 h-screen flex flex-col gap-1.5">
+      <div
+        className={` ${"w-full" && openMsgContainer ? " hidden w-0" : "visible w-full"} bg-blue-300 sm:w-[21rem] p-2 h-screen flex flex-col gap-1.5`}
+      >
         <div className=" bg-base-100 p-2 rounded-sm text-center">
           <p className="text-[19px] bg-gradient-to-r from-indigo-400 to-indigo-800 text-transparent bg-clip-text font-semibold">
             Let's Talk
           </p>
         </div>
         <div>
-          <label className="input">
+          <label className="input w-full">
             <MdPersonSearch className="text-2xl" />
             <input
               className="text-[17px]"
@@ -98,11 +89,7 @@ export const UserSidebar = () => {
           ))}
         </div>
         <div className=" bg-base-100 rounded-sm flex justify-between items-center p-0.5">
-          <UserAvatar
-            onClick={console.log("click")}
-            key={userProfile?._id}
-            user={userProfile}
-          />
+          <UserAvatar key={userProfile?._id} user={userProfile} />
 
           <form onSubmit={handleLogout}>
             <button

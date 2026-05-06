@@ -8,13 +8,16 @@ import { getSocket } from "../store/slice/socket/socket";
 import { ScreenLoading } from "./utility/ScreenLoading";
 import { Profile } from "../pages/letstalk/Profile";
 import { useNavigate } from "react-router-dom";
+import { setOpenMsgContainer } from "../store/slice/massage/messageSlice";
 
 export const MessageContainer = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { selectedUser } = useSelector((state) => state.userSlice);
   const { userProfile } = useSelector((state) => state.userSlice);
   const { message } = useSelector((state) => state.messageSlice);
+  const { openMsgContainer } = useSelector((state) => state.messageSlice);
+  const { screenLoading } = useSelector((state) => state.messageSlice);
   const socket = getSocket();
 
   // console.log("userProfile", userProfile)
@@ -60,7 +63,9 @@ export const MessageContainer = () => {
           {navigate("/profile")}
         </div>
       ) : (
-        <div className="h-screen flex flex-col w-full">
+        <div
+          className={` ${openMsgContainer ? " visible w-full" : " hidden w-0"} relative h-screen sm:flex flex-col sm:w-full`}
+        >
           <div className=" border-b border-blue-300 p-1.5">
             {!selectedUser ? (
               <h3 className="p-2 text-2xl">Well-Come</h3>
@@ -69,22 +74,24 @@ export const MessageContainer = () => {
             )}
           </div>
           {selectedUser ? (
-            <div className="px-2 py-3 h-full overflow-auto flex flex-col">
-              {message?.map((messageDetail) => {
-                return (
-                  <ChatBubble
-                    key={messageDetail?._id}
-                    messageDetail={messageDetail}
-                  />
-                );
-              })}
-              {isTyping && (
-                <div className="self-start text-white animate-pulse">
-                  Typing...
-                </div>
-              )}
-              <div ref={scrollMessage}></div>
-            </div>
+            (screenLoading && <ScreenLoading />) || (
+              <div className="px-2 py-3 h-full overflow-auto flex flex-col">
+                {message?.map((messageDetail) => {
+                  return (
+                    <ChatBubble
+                      key={messageDetail?._id}
+                      messageDetail={messageDetail}
+                    />
+                  );
+                })}
+                {isTyping && (
+                  <div className="self-start text-white animate-pulse">
+                    Typing...
+                  </div>
+                )}
+                <div ref={scrollMessage}></div>
+              </div>
+            )
           ) : (
             <div className="w-full h-full text-center text-2xl">
               {" "}
@@ -92,6 +99,12 @@ export const MessageContainer = () => {
             </div>
           )}
           <MessageSend />
+          <div
+            onClick={() => dispatch(setOpenMsgContainer(false))}
+            className="py-2 px-2 m-3 visible sm:hidden rounded-md text-indigo-400 font-semibold bg-gray-700 fixed right-0 top-0"
+          >
+            Back
+          </div>
         </div>
       )}
     </>

@@ -36,7 +36,6 @@ export const LetsTalk = () => {
     // console.log(userProfile);
 
     socket.on("onlineUser", (onlineUserId) => {
-      console.log(onlineUserId);
       dispatch(getOnlineUsers(onlineUserId));
     });
 

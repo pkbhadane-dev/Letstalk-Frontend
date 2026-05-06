@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectUser } from "../store/slice/user/userSlice";
 import { putMarkAsReadThunk } from "../store/slice/massage/messageThunk";
 import { useUserIcon } from "../hooks/useUserIcon";
+import { setOpenMsgContainer } from "../store/slice/massage/messageSlice";
 
 export const UserAvatar = ({ user }) => {
   const { unreadCount } = useSelector((state) => state.messageSlice);
@@ -31,7 +32,7 @@ export const UserAvatar = ({ user }) => {
     <>
       <div
         onClick={handleOnclick}
-        className={`flex items-center gap-5 p-1 hover:bg-base-100 cursor-pointer ${
+        className={` relative flex items-center gap-5 p-1 hover:bg-base-100 cursor-pointer ${
           user?._id === selectedUser?._id && "bg-gray-800"
         }`}
       >
@@ -62,6 +63,10 @@ export const UserAvatar = ({ user }) => {
                 <span>{user?._id === value._id && value.count}</span>
               ))}
         </div>
+        <div
+          onClick={() => dispatch(setOpenMsgContainer(true))}
+          className=" absolute visible inset-0 sm:hidden"
+        />
       </div>
     </>
   );

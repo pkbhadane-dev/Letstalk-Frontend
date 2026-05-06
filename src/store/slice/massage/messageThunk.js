@@ -37,8 +37,6 @@ export const getUnreadMessageCountThunk = createAsyncThunk(
       // console.log("receiverId", receiverId);
 
       const response = await axiosInstance.get(`/getMessageCount`);
-      console.log(response?.data?.responseData);
-
       return response?.data?.responseData;
     } catch (error) {
       console.error(error);
@@ -54,12 +52,8 @@ export const getUnreadMessageCountThunk = createAsyncThunk(
 export const putMarkAsReadThunk = createAsyncThunk(
   "message/read",
   async ({receiverId},{ rejectWithValue }) => {
-    console.log(receiverId);
-    
     try {
       const response = await axiosInstance.put(`/markRead/${receiverId}`);
-      console.log(response.data);
-      
       return response.data;
     } catch (error) {
       console.log(error);

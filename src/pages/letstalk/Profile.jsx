@@ -90,7 +90,7 @@ export const Profile = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <div className=" relative w-2xl p-2.5 bg-gradient-to-bl from-slate-700 from-20% to-slate-800 to-80% flex flex-col gap-2 items-center justify-center rounded-md">
+      <div className=" relative w-[90%] md:w-2xl p-2.5 bg-gradient-to-bl from-slate-700 from-20% to-slate-800 to-80% flex flex-col gap-2 items-center justify-center rounded-md">
         <div className=" relative group flex flex-col justify-center items-center">
           <div className=" absolute inset-0 rounded-2xl overflow-hidden opacity-0 hover:opacity-100 bg-linear-to-b from-gray-500/70 to-transparent transition-all duration-300 flex justify-center items-center">
             <form>

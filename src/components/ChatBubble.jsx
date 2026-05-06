@@ -17,7 +17,7 @@ export const ChatBubble = ({ messageDetail }) => {
           userId === senderId ? "chat chat-end" : "chat chat-start"
         }`}
       >
-        <div className="chat-bubble chat-bubble-primary max-w-72 break-all">
+        <div className="chat-bubble chat-bubble-primary text-sm leading-tight sm:text-md sm:max-w-72 break-all">
           {messageDetail.message}
         </div>
         

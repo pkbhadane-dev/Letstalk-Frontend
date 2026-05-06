@@ -13,6 +13,7 @@ const initialState = {
   selectedChatId: null,
   unreadCount: null,
   screenLoading: false,
+  openMsgContainer: false
 };
 const messageSlice = createSlice({
   name: "message",
@@ -28,6 +29,10 @@ const messageSlice = createSlice({
     setSelectedChat: (state, action) => {
       state.selectedChatId = action.payload;
     },
+    // for small screen size
+    setOpenMsgContainer: (state, action) =>{
+      state.openMsgContainer = action.payload
+    }
   },
   extraReducers: (builder) => {
     //send message
@@ -83,7 +88,7 @@ const messageSlice = createSlice({
     });
   },
 });
-export const { getNewMessage, getUnreadMsgCount, setSelectedChat } =
+export const { getNewMessage, getUnreadMsgCount, setSelectedChat, setOpenMsgContainer } =
   messageSlice.actions;
 
 export default messageSlice.reducer;
