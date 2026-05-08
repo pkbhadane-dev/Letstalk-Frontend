@@ -27,7 +27,7 @@ export const ChatBubble = ({ messageDetail }) => {
             <>
               <span
                 onClick={() => setShowDeleteBtn(!showDeleteBtn)}
-                className=" absolute top-0 left-0 px-2 z-10"
+                className=" absolute top-0 left-0 px-2 z-10 cursor-pointer"
               >
                 <BsThreeDots size={15} />
               </span>
@@ -38,7 +38,7 @@ export const ChatBubble = ({ messageDetail }) => {
                       deleteMessageThunk({ messageId: messageDetail?._id }),
                     )
                   }
-                  className={` ${showDeleteBtn ? "opacity-100" : "opacity-0"} bg-linear-to-t from-red-400 to-red-300 absolute inset-1 rounded-sm`}
+                  className={` ${showDeleteBtn ? "opacity-100" : "opacity-0"} bg-linear-to-t from-red-400 to-red-300 absolute inset-1 cursor-pointer rounded-sm`}
                 >
                   Delete
                 </button>
