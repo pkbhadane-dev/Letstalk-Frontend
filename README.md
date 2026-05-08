@@ -314,9 +314,7 @@ Potential features for future development:
 - Voice/video calling
 - Message search and filtering
 - Message reactions/emojis
-- Typing indicators
 - Message forwarding
-- Image/file sharing
 
 ---
 
