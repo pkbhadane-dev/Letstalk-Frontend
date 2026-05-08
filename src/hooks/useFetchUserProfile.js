@@ -10,9 +10,8 @@ export const useFetchUserProfile = () => {
     const fetchData = async () => {
       try {
         const response = await dispatch(userGetProfileThunk());
-        
       } catch (error) {
-        console.log(error);
+        toast.error(error.message || "user not fetched");
       }
     };
     fetchData();

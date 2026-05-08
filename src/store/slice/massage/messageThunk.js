@@ -8,11 +8,9 @@ export const sendmessageThunk = createAsyncThunk(
       const response = await axiosInstance.post(`/send/${receiverId}`, {
         message,
       });
-      // console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
+     return HandleError(error, rejectWithValue)
     }
   }
 );
@@ -24,8 +22,7 @@ export const getMessageThunk = createAsyncThunk(
       const response = await axiosInstance.get(`/getMessage/${receiverId}`);
       return response.data;
     } catch (error) {
-      console.log(error);
-      rejectWithValue(error);
+      return HandleError(error, rejectWithValue)
     }
   }
 );
@@ -34,17 +31,10 @@ export const getUnreadMessageCountThunk = createAsyncThunk(
   "message/getMessageCount",
   async (_, { rejectWithValue }) => {
     try {
-      // console.log("receiverId", receiverId);
-
       const response = await axiosInstance.get(`/getMessageCount`);
       return response?.data?.responseData;
     } catch (error) {
-      console.error(error);
-      return rejectWithValue({
-        message: err.message,
-        status: err.response?.status,
-        data: err.response?.data,
-      });
+      return HandleError(error, rejectWithValue)
     }
   }
 );
@@ -56,8 +46,16 @@ export const putMarkAsReadThunk = createAsyncThunk(
       const response = await axiosInstance.put(`/markRead/${receiverId}`);
       return response.data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
+      return HandleError(error, rejectWithValue)
     }
   }
 );
+
+export const deleteMessageThunk = createAsyncThunk("message/delete", async({messageId}, {rejectWithValue})=>{
+try {
+  const response = await axiosInstance.delete(`/deleteMessage/${messageId}`)
+  return response.data.responseData._id
+} catch (error) {
+  return HandleError(error, rejectWithValue)
+}
+})

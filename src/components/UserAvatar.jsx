@@ -9,19 +9,9 @@ export const UserAvatar = ({ user }) => {
   const { onlineUserId } = useSelector((state) => state.socketSlice);
   const { selectedUser } = useSelector((state) => state.userSlice);
 
-  // console.log("unreadCount", unreadCount.responseData);
-  // console.log("unreadCount2", unreadCount);
-
-  //for better performance (if arrays are large) use Set method
-  // const { otherUsers } = useSelector((state) => state.userSlice);
-  // const otherUserId = otherUsers?.map((value) => value._id);
-  // const set = new Set(otherUserId);
-  // const getOnlineUser = onlineUserId?.filter((id) => set.has(id));
-  // console.log(getOnlineUser?.toString());
-
+ 
   const setIcon = useUserIcon(user);
 
-  // const{firstname, lastname} = {user}
   const dispatch = useDispatch();
   const handleOnclick = async () => {
     dispatch(setSelectUser(user));

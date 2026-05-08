@@ -5,20 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLoginThunk } from "../../store/slice/user/userThunk";
 
 export const Login = () => {
-  // const [state, action, pending] = useActionState(submitForm,{formData:null});
-  // function submitForm(prevState, formData) {
-  //   // const data = Object.fromEntries(formData.entries())
-  //   const userName = formData.get("username");
-  //   const passWord = formData.get("password");
-
-  //   const newEntry = { userName, passWord };
-  //   const formArray = prevState.formArray || [];
-  //   formArray.push(newEntry);
-
-  //   // console.log(prevState, data);
-  //   return { ...prevState, formData:formArray };
-  // }
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +12,6 @@ export const Login = () => {
     email: "",
     password: "",
   });
-// console.log(formData);
 
   const handleOnchange = (e) => {
     e.preventDefault();

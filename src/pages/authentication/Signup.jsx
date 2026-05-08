@@ -28,7 +28,6 @@ const navigate = useNavigate()
   const handleSignup = async(e) => {
     e.preventDefault()
     const response = await dispatch(userSignupThunk(formData));
-    console.log(response);
     if (response?.payload?.status === 200) {
       navigate("/letstalk")
     }

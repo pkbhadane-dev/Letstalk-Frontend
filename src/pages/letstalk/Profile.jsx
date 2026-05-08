@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
 import { FcCancel, FcGallery } from "react-icons/fc";
 import { FaCross, FaEdit } from "react-icons/fa";
 import { useUserIcon } from "../../hooks/useUserIcon";
@@ -13,15 +12,18 @@ import {
   updateProfilePicThunk,
 } from "../../store/slice/user/userThunk";
 import { ButtonLoading } from "../../components/utility/ButtonLoading";
-import { setAboutEditBtn, setSelectUser } from "../../store/slice/user/userSlice";
+import {
+  setAboutEditBtn,
+  setSelectUser,
+} from "../../store/slice/user/userSlice";
 import { BiCross } from "react-icons/bi";
 import { CgCross } from "react-icons/cg";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const Profile = () => {
   const dispatch = useDispatch();
-  useFetchUserProfile();
   const navigate = useNavigate();
   const { userProfile } = useSelector((state) => state.userSlice);
   const { buttonLoading } = useSelector((state) => state.userSlice);
@@ -35,13 +37,9 @@ export const Profile = () => {
 
   const { email, firstname, lastname } = userProfile;
 
-  // const [image, setImage] = useState("");
-  // console.log("image", image);
-
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     setProfilePic(file);
-    // setImage(URL.createObjectURL(file));
   };
 
   const handleEditBtn = (e) => {
@@ -55,36 +53,28 @@ export const Profile = () => {
   const handleAboutSubmit = (e) => {
     e.preventDefault();
     if (!editAbout) return;
-    // console.log(editAbout);
 
     dispatch(setUserAboutThunk({ about: editAbout }));
     setAboutEditBtn(false);
   };
 
   const handleCancle = (e) => {
-    e.preventDefault()
-    navigate("/letstalk")
-    dispatch(setSelectUser(null))
-  }
+    e.preventDefault();
+    navigate("/letstalk");
+    dispatch(setSelectUser(null));
+  };
 
   const handleProfilePicSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log("hello");
 
       if (!profilePic) return;
 
       const formData = new FormData(); // Here we use FormData because we send image file to backend image file is binary
       formData.append("image", profilePic);
-
-      // const res = await axiosInstance.post("/uploadProfilePic", formData, {
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // });
-      // console.log("hiii");
-      // console.log(res.data.responseData);
       dispatch(updateProfilePicThunk(formData));
     } catch (error) {
-      console.log("image update fail", error);
+      toast.error("image update fail", error.message);
     }
   };
 
@@ -166,10 +156,7 @@ export const Profile = () => {
           )}
         </form>
         <span className=" absolute top-0 right-0 py-2 px-2 cursor-pointer hover:scale-110 duration-300">
-          <RxCross2
-            size={25}
-            onClick={handleCancle}
-          />
+          <RxCross2 size={25} onClick={handleCancle} />
         </span>
       </div>
     </div>

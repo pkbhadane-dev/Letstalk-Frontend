@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../../components/utility/axiosInstance";
+import { HandleError } from "../../../components/utility/handleErrors";
 
 export const userLoginThunk = createAsyncThunk(
   "user/login",
@@ -8,10 +9,11 @@ export const userLoginThunk = createAsyncThunk(
       const response = await axiosInstance.post("/login", { email, password });
       return response.data;
     } catch (error) {
-      const errMessage = error?.response?.data?.errors[0]?.msg; //validation err
-      const customErrMessage = error?.response?.data?.errors; // custom err
-      const networkError = error?.message;
-      return rejectWithValue(errMessage || customErrMessage || networkError);
+      return HandleError(error, rejectWithValue);
+      // const errMessage = error?.response?.data?.errors[0]?.msg; //validation err
+      // const customErrMessage = error?.response?.data?.errors; // custom err
+      // const networkError = error?.message;
+      // return rejectWithValue(errMessage || customErrMessage || networkError);
     }
   },
 );
@@ -32,9 +34,10 @@ export const userSignupThunk = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      const errorMassege = error?.response?.data?.errors[0]?.msg; //validation error
-      const customErrMessage = error?.response?.data?.errors; // custom error
-      return rejectWithValue(errorMassege || customErrMessage);
+      return HandleError(error, rejectWithValue);
+      // const errorMassege = error?.response?.data?.errors[0]?.msg; //validation error
+      // const customErrMessage = error?.response?.data?.errors; // custom error
+      // return rejectWithValue(errorMassege || customErrMessage);
     }
   },
 );
@@ -42,10 +45,9 @@ export const userSignupThunk = createAsyncThunk(
 export const userLogoutThunk = createAsyncThunk("user/logout", async () => {
   try {
     const response = await axiosInstance.post("/logout");
-    console.log("response from logoutthunk", response.data);  
     return response.data;
   } catch (error) {
-    console.log(error);
+    return HandleError(error, rejectWithValue);
   }
 });
 
@@ -54,14 +56,9 @@ export const userGetProfileThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/getprofile");
-      // console.log("from userGetProfileThunk", response);
-
       return response.data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(
-        error?.response?.data?.message || "Profile fetch failed",
-      );
+      return HandleError(error, rejectWithValue);
     }
   },
 );
@@ -71,13 +68,9 @@ export const getOtherUsersThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/otherUsers");
-      // console.log(response);
       return response?.data;
     } catch (error) {
-      const errorMassege = error?.response?.data?.errors[0]?.msg; //validation error
-      const customErrMessage = error?.response?.data?.errors; // custom error
-      const networkError = error?.message;
-      return rejectWithValue(errorMassege || customErrMessage || networkError);
+      return HandleError(error, rejectWithValue);
     }
   },
 );
@@ -91,8 +84,7 @@ export const updateProfilePicThunk = createAsyncThunk(
       });
       return response.data?.responseData;
     } catch (error) {
-      console.log(error);
-      rejectWithValue(error.message);
+      return HandleError(error, rejectWithValue);
     }
   },
 );
@@ -104,12 +96,10 @@ export const setUserAboutThunk = createAsyncThunk(
       const response = await axiosInstance.post("/setAbout", {
         about: editAbout,
       });
-      // console.log(response.data);
 
       return response.data?.responseData;
     } catch (error) {
-      console.log(error);
-      rejectWithValue(error);
+      return HandleError(error, rejectWithValue);
     }
   },
 );

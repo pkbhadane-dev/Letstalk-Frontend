@@ -9,7 +9,6 @@ export const socketSlice = createSlice({
   reducers: {
     getOnlineUsers: (state, action) => {
       state.onlineUserId = action.payload;
-      // console.log(state.onlineUserId);
     },
     setIsTyping: (state, action) => {
       state.isTyping = action.payload;

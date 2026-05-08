@@ -13,6 +13,7 @@ import { setOpenMsgContainer } from "../store/slice/massage/messageSlice";
 export const MessageContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [goToProfilePage, setGoToProfilePage] = useState(false);
   const { selectedUser } = useSelector((state) => state.userSlice);
   const { userProfile } = useSelector((state) => state.userSlice);
   const { message } = useSelector((state) => state.messageSlice);
@@ -20,8 +21,14 @@ export const MessageContainer = () => {
   const { screenLoading } = useSelector((state) => state.messageSlice);
   const socket = getSocket();
 
-  // console.log("userProfile", userProfile)
-  //   console.log("selectedUser", selectedUser);
+ useEffect(() => {
+  if (selectedUser?._id && userProfile?._id) {
+    if (selectedUser._id === userProfile._id) {
+      navigate("/profile");
+    }
+  }
+}, [selectedUser, userProfile, navigate]);
+
   useEffect(() => {
     if (selectedUser) {
       dispatch(getMessageThunk({ receiverId: selectedUser?._id }));
@@ -56,13 +63,10 @@ export const MessageContainer = () => {
     scrollMessage.current?.scrollIntoView({ behavior: "smooth" });
   }, [message, isTyping]);
 
+
   return (
     <>
-      {selectedUser?._id === userProfile?._id ? (
-        <div className="flex justify-center items-center w-full">
-          {navigate("/profile")}
-        </div>
-      ) : (
+      
         <div
           className={` ${openMsgContainer ? " visible w-full" : " hidden w-0"} relative h-screen sm:flex flex-col sm:w-full`}
         >
@@ -106,7 +110,7 @@ export const MessageContainer = () => {
             Back
           </div>
         </div>
-      )}
+      
     </>
   );
 };

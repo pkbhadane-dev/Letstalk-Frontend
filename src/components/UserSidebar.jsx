@@ -30,7 +30,7 @@ export const UserSidebar = () => {
     try {
       dispatch(getOtherUsersThunk());
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -38,7 +38,7 @@ export const UserSidebar = () => {
     try {
       dispatch(getUnreadMessageCountThunk());
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
