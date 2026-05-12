@@ -49,8 +49,8 @@ export const UserAvatar = ({ user }) => {
         <div>
           {unreadCount?.responseData?.length === 0
             ? []
-            : unreadCount?.map((value) => (
-                <span>{user?._id === value._id && value.count}</span>
+            : unreadCount?.responseData?.map((value) => (
+                <span key={value._id}>{user?._id === value._id && value.count}</span>
               ))}
         </div>
         <div
