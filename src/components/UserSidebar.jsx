@@ -56,6 +56,7 @@ export const UserSidebar = () => {
     const response = await dispatch(userLogoutThunk());
 
     await persistor.purge();
+    localStorage.clear()
 
     if (response?.payload.status === 200) {
       const socket = getSocket();
