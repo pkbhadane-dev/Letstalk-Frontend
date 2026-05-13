@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heading } from "../../components/Heading";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginThunk } from "../../store/slice/user/userThunk";
+import { resetButtonLoading } from "../../store/slice/user/userSlice";
 import { ButtonLoading } from "../../components/utility/ButtonLoading";
 
 export const Login = () => {
@@ -14,6 +15,10 @@ export const Login = () => {
     password: "",
   });
   const { buttonLoading } = useSelector((state) => state.userSlice);
+
+  useEffect(() => {
+    dispatch(resetButtonLoading());
+  }, [dispatch]);
 
   const handleOnchange = (e) => {
     e.preventDefault();

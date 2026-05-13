@@ -30,6 +30,9 @@ export const userSlice = createSlice({
     setSelectUser: (state, action) => {
       state.selectedUser = action.payload;
     },
+    resetButtonLoading: (state) => {
+      state.buttonLoading = false;
+    },
   },
 
   extraReducers: (builder) => {
@@ -137,6 +140,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setSelectUser, setAboutEditBtn } = userSlice.actions;
+export const { setSelectUser, setAboutEditBtn, resetButtonLoading } = userSlice.actions;
 
 export default userSlice.reducer;
