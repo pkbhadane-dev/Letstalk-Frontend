@@ -8,7 +8,9 @@ import { useFetchUserProfile } from "./hooks/useFetchUserProfile";
 
 function App() {
 
-  useFetchUserProfile()
+  useEffect(()=>{
+    useFetchUserProfile()
+  },[])
 
   return (
     <>
