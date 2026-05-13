@@ -8,9 +8,8 @@ export const UserAvatar = ({ user }) => {
   const { unreadCount } = useSelector((state) => state.messageSlice);
   const { onlineUserId } = useSelector((state) => state.socketSlice);
   const { selectedUser } = useSelector((state) => state.userSlice);
-console.log(unreadCount);
+  console.log(unreadCount);
 
- 
   const setIcon = useUserIcon(user);
 
   const dispatch = useDispatch();
@@ -50,8 +49,10 @@ console.log(unreadCount);
         <div>
           {unreadCount?.responseData?.length === 0
             ? []
-            : unreadCount?.responseData?.map((value) => (
-                <span key={value._id}>{user?._id === value._id && value.count}</span>
+            : unreadCount?.map((value) => (
+                <span key={value._id}>
+                  {user?._id === value._id && value.count}
+                </span>
               ))}
         </div>
         <div
