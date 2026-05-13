@@ -79,16 +79,14 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider
-        router={router}
-        future={{
-          v7_startTransition: true,
-        }}
-      >
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
-      </RouterProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider
+          router={router}
+          future={{
+            v7_startTransition: true,
+          }}
+        />
+      </PersistGate>
     </Provider>
   </StrictMode>,
 );

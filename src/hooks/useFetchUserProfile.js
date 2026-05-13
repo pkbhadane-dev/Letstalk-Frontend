@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { userSlice } from "../store/slice/user/userSlice";
 
 export const useFetchUserProfile = () => {
-  const {isAuthentication} = useSelector((state)=> state.userSlice)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isAuthentication } = useSelector((state) => state.userSlice);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,5 +17,5 @@ export const useFetchUserProfile = () => {
       }
     };
     fetchData();
-  }, [dispatch, navigate, isAuthentication]);
+  }, [dispatch, isAuthentication]);
 };
