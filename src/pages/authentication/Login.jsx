@@ -61,7 +61,7 @@ export const Login = () => {
               type="submit"
               className="btn bg-gradient-to-tr from-indigo-400 to-indigo-800 border-0  mt-4"
             >
-              {buttonLoading ? <ButtonLoading /> : Login}
+              {buttonLoading ? <ButtonLoading /> : <span>Login</span>}
             </button>
             <p className="text-[14px]">
               Don't have an account?{" "}
