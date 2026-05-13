@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { userGetProfileThunk } from "../store/slice/user/userThunk";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { userSlice } from "../store/slice/user/userSlice";
 
 export const useFetchUserProfile = () => {
+  const {isAuthentication} = useState((state)=> state.userSlice)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -15,5 +17,5 @@ export const useFetchUserProfile = () => {
       }
     };
     fetchData();
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, isAuthentication]);
 };

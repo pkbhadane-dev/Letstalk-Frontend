@@ -42,7 +42,7 @@ export const userSlice = createSlice({
       state.buttonLoading = true;
     });
     builder.addCase(userLoginThunk.fulfilled, (state, action) => {
-      state.userProfile = action.payload?.responseData;
+      state.userProfile = action.payload?.responseData.user;
       state.token = action.payload?.responseData.token;
 
       toast.success("login successfull");
