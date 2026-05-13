@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heading } from "../../components/Heading";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginThunk } from "../../store/slice/user/userThunk";
+import { ButtonLoading } from "../../components/utility/ButtonLoading";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ export const Login = () => {
     email: "",
     password: "",
   });
+  const { buttonLoading } = useSelector((state) => state.userSlice);
 
   const handleOnchange = (e) => {
     e.preventDefault();
@@ -28,7 +30,6 @@ export const Login = () => {
       navigate("/letstalk");
     }
   };
-  
 
   return (
     <>
@@ -60,7 +61,7 @@ export const Login = () => {
               type="submit"
               className="btn bg-gradient-to-tr from-indigo-400 to-indigo-800 border-0  mt-4"
             >
-              Login
+              {buttonLoading ? <ButtonLoading /> : Login}
             </button>
             <p className="text-[14px]">
               Don't have an account?{" "}

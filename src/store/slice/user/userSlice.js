@@ -14,13 +14,13 @@ const initialState = {
   isAuthentication: false,
   buttonLoading: false,
   screenLoading: true,
-  token:null,
+  token: null,
   userProfile: null,
   otherUsers: null,
   image: null,
   selectedUser: null,
   error: false,
-  logoutResponse: null
+  logoutResponse: null,
 };
 
 export const userSlice = createSlice({
@@ -29,36 +29,35 @@ export const userSlice = createSlice({
   reducers: {
     setSelectUser: (state, action) => {
       state.selectedUser = action.payload;
-      
     },
-    
-    
   },
 
   extraReducers: (builder) => {
     //Login Thunk
 
     builder.addCase(userLoginThunk.pending, (state, action) => {
-      
+      state.buttonLoading = true;
     });
     builder.addCase(userLoginThunk.fulfilled, (state, action) => {
       state.userProfile = action.payload?.responseData;
-      state.token= action.payload?.responseData.token;
-    
+      state.token = action.payload?.responseData.token;
+
       toast.success("login successfull");
       state.isAuthentication = true;
       state.screenLoading = false;
+      state.buttonLoading = false;
     });
     builder.addCase(userLoginThunk.rejected, (state, action) => {
       toast.error(action.payload);
-       screenLoading = false
+      state.screenLoading = false;
+      state.buttonLoading = false;
     });
 
     // Signup Thunk
 
     builder.addCase(userSignupThunk.pending, (state, action) => {});
     builder.addCase(userSignupThunk.fulfilled, (state, action) => {
-      state.userProfile = action.payload?.responseData
+      state.userProfile = action.payload?.responseData;
       state.isAuthentication = true;
       state.screenLoading = false;
       toast.success("signup successfull");
@@ -73,11 +72,11 @@ export const userSlice = createSlice({
     builder.addCase(userLogoutThunk.fulfilled, (state, action) => {
       state.userProfile = null;
       state.isAuthentication = false;
-      state.selectedUser = null
-      state.logoutResponse = action.payload
+      state.selectedUser = null;
+      state.logoutResponse = action.payload;
     });
     builder.addCase(userLogoutThunk.rejected, (state, action) => {
-      toast.error(action.payload)
+      toast.error(action.payload);
     });
 
     // get profile
@@ -93,19 +92,17 @@ export const userSlice = createSlice({
     builder.addCase(userGetProfileThunk.rejected, (state, action) => {
       state.isAuthentication = false;
       state.screenLoading = false;
-      toast.error(action.payload)
+      toast.error(action.payload);
     });
 
     // get other profile users
 
-    builder.addCase(getOtherUsersThunk.pending, (state, action) => {
-
-    });
+    builder.addCase(getOtherUsersThunk.pending, (state, action) => {});
     builder.addCase(getOtherUsersThunk.fulfilled, (state, action) => {
       state.otherUsers = action.payload?.responseData;
     });
     builder.addCase(getOtherUsersThunk.rejected, (state, action) => {
-      toast.error(action.payload)
+      toast.error(action.payload);
     });
 
     // user profile picture update
@@ -136,7 +133,6 @@ export const userSlice = createSlice({
     builder.addCase(setUserAboutThunk.rejected, (state, action) => {
       state.buttonLoading = false;
       toast.error(action.payload);
-      
     });
   },
 });
