@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Heading } from "../../components/Heading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignupThunk } from "../../store/slice/user/userThunk";
 
