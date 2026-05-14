@@ -62,7 +62,8 @@ export const userSlice = createSlice({
       state.buttonLoading = true;
     });
     builder.addCase(userSignupThunk.fulfilled, (state, action) => {
-      state.userProfile = action.payload?.responseData;
+      state.userProfile = action.payload?.responseData.filterUser;
+      state.token = action.payload?.responseData.token;
       state.isAuthentication = true;
       state.screenLoading = false;
       state.buttonLoading = false;

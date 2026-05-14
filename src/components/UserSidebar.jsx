@@ -65,12 +65,14 @@ export const UserSidebar = () => {
       localStorage.clear();
 
       navigate("/login");
+      window.location.href = "/login";
       toast.success("Logged out successfully");
     } catch (error) {
       console.error("Logout failed", error);
       await persistor.purge();
       localStorage.clear();
       navigate("/login");
+      window.location.href = "/login";
     }
   };
 
