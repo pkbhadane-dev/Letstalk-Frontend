@@ -55,7 +55,6 @@ export const UserSidebar = () => {
     e.preventDefault();
 
     try {
-      
       const socket = getSocket();
       if (socket) {
         socket.disconnect();
@@ -64,58 +63,13 @@ export const UserSidebar = () => {
       await dispatch(userLogoutThunk()).unwrap();
 
       await persistor.purge();
-
-      // Additional cleanup - clear specific keys from localStorage that might remain
-      const keysToRemove = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && (key.includes("persist") || key.includes("root") || key.includes("auth"))) {
-          keysToRemove.push(key);
-        }
-      }
-      keysToRemove.forEach((key) => localStorage.removeItem(key));
-
-      // Clear all cookies by setting their expiry to past with matching attributes
-      document.cookie.split(";").forEach((c) => {
-        const eqPos = c.indexOf("=");
-        const name = eqPos > -1 ? c.substr(0, eqPos).trim() : c.trim();
-        if (name) {
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname};secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;Partitioned;secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname};Partitioned;secure;SameSite=None`;
-        }
-      });
-
-      // Add a small delay to ensure cleanup completes
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
+      localStorage.clear();
       toast.success("Logged out successfully");
       // Use hard redirect to ensure clean page reload
       window.location.href = "/login";
     } catch (error) {
       // Even on error, attempt to clear everything and redirect
       await persistor.purge();
-
-      const keysToRemove = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && (key.includes("persist") || key.includes("root") || key.includes("auth"))) {
-          keysToRemove.push(key);
-        }
-      }
-      keysToRemove.forEach((key) => localStorage.removeItem(key));
-
-      document.cookie.split(";").forEach((c) => {
-        const eqPos = c.indexOf("=");
-        const name = eqPos > -1 ? c.substr(0, eqPos).trim() : c.trim();
-        if (name) {
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname};secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;Partitioned;secure;SameSite=None`;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname};Partitioned;secure;SameSite=None`;
-        }
-      });
       window.location.href = "/login";
     }
   };
