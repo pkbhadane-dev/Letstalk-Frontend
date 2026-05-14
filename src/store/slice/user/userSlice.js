@@ -58,15 +58,19 @@ export const userSlice = createSlice({
 
     // Signup Thunk
 
-    builder.addCase(userSignupThunk.pending, (state, action) => {});
+    builder.addCase(userSignupThunk.pending, (state, action) => {
+      state.buttonLoading = true;
+    });
     builder.addCase(userSignupThunk.fulfilled, (state, action) => {
       state.userProfile = action.payload?.responseData;
       state.isAuthentication = true;
       state.screenLoading = false;
+      state.buttonLoading = false;
       toast.success("signup successfull");
     });
     builder.addCase(userSignupThunk.rejected, (state, action) => {
       toast.error(action.payload);
+      state.buttonLoading = false;
     });
 
     //Logout Thunk
@@ -140,6 +144,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setSelectUser, setAboutEditBtn, resetButtonLoading } = userSlice.actions;
+export const { setSelectUser, setAboutEditBtn, resetButtonLoading } =
+  userSlice.actions;
 
 export default userSlice.reducer;

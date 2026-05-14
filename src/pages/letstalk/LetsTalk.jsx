@@ -14,7 +14,7 @@ export const LetsTalk = () => {
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.userSlice);
   const { token } = useSelector((state) => state.userSlice);
-
+  const { isAuthentication } = useSelector((state) => state.userSlice);
   const { selectedChatId } = useSelector((state) => state.messageSlice);
 
   // use this code for better performance
@@ -57,7 +57,7 @@ export const LetsTalk = () => {
       socket.off("unreadMsgCount");
       // socket.disconnect();
     };
-  }, [token, dispatch]);
+  }, [token, dispatch, isAuthentication]);
 
   return (
     <div className="flex">

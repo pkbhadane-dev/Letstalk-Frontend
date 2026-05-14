@@ -14,6 +14,7 @@ import {
   setSelectedChat,
 } from "../store/slice/massage/messageSlice";
 import { persistor } from "../store/store";
+import toast from "react-hot-toast";
 
 export const UserSidebar = () => {
   const dispatch = useDispatch();
@@ -53,14 +54,22 @@ export const UserSidebar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    const response = await dispatch(userLogoutThunk());
+    try {
+      const response = await dispatch(userLogoutThunk()).unwrap();
 
-    await persistor.purge();
-    localStorage.clear()
-
-    if (response?.payload.status === 200) {
       const socket = getSocket();
-      if (socket) socket.disconnect();
+      if (socket) {
+        socket.disconnect();
+      }
+      await persistor.purge();
+      localStorage.clear();
+
+      navigate("/login");
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed", error);
+      await persistor.purge();
+      localStorage.clear();
       navigate("/login");
     }
   };
@@ -68,7 +77,6 @@ export const UserSidebar = () => {
   const handleSearchInput = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
-   
   };
 
   return (
@@ -94,10 +102,12 @@ export const UserSidebar = () => {
           </label>
         </div>
         <div className="h-full flex flex-col gap-1.5 overflow-auto bg-base-300 rounded-sm">
-          {otherUsers?.map((user) => 
-            user.firstname.toLowerCase().includes(searchInput?.toLowerCase() || "") ? (
+          {otherUsers?.map((user) =>
+            user.firstname
+              .toLowerCase()
+              .includes(searchInput?.toLowerCase() || "") ? (
               <UserAvatar key={user._id} user={user} />
-            ) : null
+            ) : null,
           )}
         </div>
         <div className=" bg-base-100 rounded-sm flex justify-between items-center p-0.5">

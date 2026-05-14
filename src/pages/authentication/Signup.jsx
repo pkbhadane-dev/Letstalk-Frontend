@@ -4,10 +4,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignupThunk } from "../../store/slice/user/userThunk";
 
-
 export const Signup = () => {
   const dispatch = useDispatch();
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -17,6 +16,12 @@ const navigate = useNavigate()
     gender: "",
   });
 
+  const { buttonLoading } = useSelector((state) => state.userSlice);
+
+  useEffect(() => {
+    dispatch(resetButtonLoading());
+  }, [dispatch]);
+
   const handleOnChange = (e) => {
     e.preventDefault();
     setFormData((prev) => ({
@@ -25,11 +30,11 @@ const navigate = useNavigate()
     }));
   };
 
-  const handleSignup = async(e) => {
-    e.preventDefault()
+  const handleSignup = async (e) => {
+    e.preventDefault();
     const response = await dispatch(userSignupThunk(formData));
     if (response?.payload?.status === 200) {
-      navigate("/letstalk")
+      navigate("/letstalk");
     }
   };
 
@@ -114,7 +119,7 @@ const navigate = useNavigate()
               type="submit"
               className="btn bg-gradient-to-tr from-indigo-400 to-indigo-800 border-0  mt-4"
             >
-              Signup
+              {buttonLoading ? <ButtonLoading /> : <span>Signup</span>}
             </button>
             <p className="text-[14px]">
               Already have an account?{" "}
