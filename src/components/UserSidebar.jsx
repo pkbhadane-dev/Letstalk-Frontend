@@ -55,19 +55,27 @@ export const UserSidebar = () => {
     e.preventDefault();
 
     try {
-      const response = await dispatch(userLogoutThunk()).unwrap();
-
+      // Disconnect socket first
       const socket = getSocket();
       if (socket) {
         socket.disconnect();
       }
+
+      // Dispatch logout thunk
+      await dispatch(userLogoutThunk()).unwrap();
+
+      // Clear all storage data
       await persistor.purge();
       localStorage.clear();
 
-      // navigate("/login");
-      window.location.href = "/login";
+      // Add a small delay to ensure state cleanup completes
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       toast.success("Logged out successfully");
+      // Use hard redirect to ensure clean page reload
+      window.location.href = "/login";
     } catch (error) {
+      // Even on error, redirect to login
       window.location.href = "/login";
     }
   };

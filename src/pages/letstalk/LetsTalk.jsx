@@ -25,7 +25,8 @@ export const LetsTalk = () => {
   }, [selectedChatId]);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token || !isAuthentication) return;
+    
     const socket = initializeSocket(token);
 
     socket.on("onlineUser", (onlineUserId) => {
@@ -55,7 +56,7 @@ export const LetsTalk = () => {
       socket.off("onlineUser");
       socket.off("newMessage");
       socket.off("unreadMsgCount");
-      // socket.disconnect();
+      socket.disconnect();
     };
   }, [token, dispatch, isAuthentication]);
 
