@@ -3,6 +3,8 @@ import { Heading } from "../../components/Heading";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignupThunk } from "../../store/slice/user/userThunk";
+import { resetButtonLoading } from "../../store/slice/user/userSlice";
+import { ButtonLoading } from "../../components/utility/ButtonLoading";
 
 export const Signup = () => {
   const dispatch = useDispatch();
