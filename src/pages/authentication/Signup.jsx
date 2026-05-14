@@ -36,7 +36,9 @@ export const Signup = () => {
     e.preventDefault();
     const response = await dispatch(userSignupThunk(formData));
     if (response?.payload?.status === 200) {
-      navigate("/letstalk");
+      setTimeout(() => {
+        navigate("/letstalk");
+      }, 100);
     }
   };
 
