@@ -5,15 +5,16 @@ import { ScreenLoading } from "./ScreenLoading";
 
 export const PublicRoute = ({ children }) => {
   const navigate = useNavigate();
-  const { isAuthentication, screenLoading } = useSelector(
+  const { isAuthentication, token, screenLoading } = useSelector(
     (state) => state.userSlice
   );
 
   useEffect(() => {
-    if (isAuthentication) {
+    // If authenticated with a valid token, redirect to letstalk
+    if (isAuthentication && token) {
       return navigate("/letstalk");
     }
-  }, [isAuthentication]);
+  }, [isAuthentication, token, navigate]);
 
   // if (screenLoading || isAuthentication) {
   //   return <ScreenLoading />;

@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 
 export const ProtectedRoute = ({ children }) => {
-  const {isAuthentication} = useSelector((state) => state.userSlice);
+  const { isAuthentication, token } = useSelector((state) => state.userSlice);
   
   const navigate = useNavigate();
-  useEffect(()=>{
-    
-    if (!isAuthentication) {
-      return navigate('/login')
+  useEffect(() => {
+    // Redirect if not authenticated or if no valid token
+    if (!isAuthentication || !token) {
+      return navigate('/login');
     }
-  },[ isAuthentication])
+  }, [isAuthentication, token, navigate]);
   
-  return children
+  return children;
 };

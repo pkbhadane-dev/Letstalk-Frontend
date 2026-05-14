@@ -9,7 +9,6 @@ export const useFetchUserProfile = () => {
   const navigate = useNavigate();
   const { isAuthentication } = useSelector((state) => state.userSlice);
   useEffect(() => {
-    // Only fetch profile if user is authenticated
     if (!isAuthentication) return;
 
     const fetchData = async () => {

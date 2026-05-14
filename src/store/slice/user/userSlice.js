@@ -33,12 +33,23 @@ export const userSlice = createSlice({
     resetButtonLoading: (state) => {
       state.buttonLoading = false;
     },
+    resetUserState: (state) => {
+      // Reset user state to initial state to prevent stale data
+      state.userProfile = null;
+      state.token = null;
+      state.isAuthentication = false;
+      state.selectedUser = null;
+      state.otherUsers = null;
+    },
   },
 
   extraReducers: (builder) => {
     //Login Thunk
 
     builder.addCase(userLoginThunk.pending, (state, action) => {
+      // Clear old user data before attempting new login
+      state.userProfile = null;
+      state.selectedUser = null;
       state.buttonLoading = true;
     });
     builder.addCase(userLoginThunk.fulfilled, (state, action) => {
@@ -76,13 +87,20 @@ export const userSlice = createSlice({
 
     //Logout Thunk
 
-    builder.addCase(userLogoutThunk.pending, (state, action) => {});
+    builder.addCase(userLogoutThunk.pending, (state, action) => {
+      // Clear state immediately on logout pending
+      state.userProfile = null;
+      state.token = null;
+      state.isAuthentication = false;
+      state.selectedUser = null;
+      state.otherUsers = null;
+    });
     builder.addCase(userLogoutThunk.fulfilled, (state, action) => {
       state.userProfile = null;
       state.token = null;
-      state.userProfile = null;
       state.isAuthentication = false;
       state.selectedUser = null;
+      state.otherUsers = null;
       state.logoutResponse = action.payload;
     });
     builder.addCase(userLogoutThunk.rejected, (state, action) => {
@@ -147,7 +165,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setSelectUser, setAboutEditBtn, resetButtonLoading } =
+export const { setSelectUser, resetButtonLoading, resetUserState } =
   userSlice.actions;
 
 export default userSlice.reducer;

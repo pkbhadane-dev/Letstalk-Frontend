@@ -16,6 +16,7 @@ const persistConfig = {
   key: "root",
   storage,
   blacklist: ["update"],
+  // Persist all slices but logout will clear the persisted state
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
