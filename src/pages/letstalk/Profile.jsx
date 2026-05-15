@@ -37,11 +37,6 @@ export const Profile = () => {
 
   const { email, firstname, lastname } = userProfile;
 
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePic(file);
-  };
-
   const handleEditBtn = (e) => {
     e.preventDefault();
     setAboutEditBtn(true);
@@ -64,10 +59,11 @@ export const Profile = () => {
     dispatch(setSelectUser(null));
   };
 
-  const handleProfilePicSubmit = async (e) => {
+  const handleProfilePicOnChange = async (e) => {
+    e.preventDefault();
+    
     try {
-      e.preventDefault();
-
+      const profilePic = e.target.files[0];
       if (!profilePic) return;
 
       const formData = new FormData(); // Here we use FormData because we send image file to backend image file is binary
@@ -84,7 +80,12 @@ export const Profile = () => {
         <div className=" relative group flex flex-col justify-center items-center">
           <div className=" absolute inset-0 rounded-2xl overflow-hidden opacity-0 hover:opacity-100 bg-linear-to-b from-gray-500/70 to-transparent transition-all duration-300 flex justify-center items-center">
             <form>
-              <input type="file" id="profilePic" hidden />
+              <input
+                type="file"
+                id="profilePic"
+                hidden
+                onChange={handleProfilePicOnChange}
+              />
               <label htmlFor="profilePic">
                 <FcGallery
                   className=" cursor-pointer hover:scale-110 duration-300"

@@ -8,8 +8,7 @@ export const UserAvatar = ({ user }) => {
   const { unreadCount } = useSelector((state) => state.messageSlice);
   const { onlineUserId } = useSelector((state) => state.socketSlice);
   const { selectedUser } = useSelector((state) => state.userSlice);
-  console.log(unreadCount);
-
+  
   const setIcon = useUserIcon(user);
 
   const dispatch = useDispatch();
