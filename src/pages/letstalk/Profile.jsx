@@ -61,7 +61,7 @@ export const Profile = () => {
 
   const handleProfilePicOnChange = async (e) => {
     e.preventDefault();
-    
+
     try {
       const profilePic = e.target.files[0];
       if (!profilePic) return;
@@ -87,10 +87,14 @@ export const Profile = () => {
                 onChange={handleProfilePicOnChange}
               />
               <label htmlFor="profilePic">
-                <FcGallery
-                  className=" cursor-pointer hover:scale-110 duration-300"
-                  size={30}
-                />
+                {buttonLoading ? (
+                  <ButtonLoading />
+                ) : (
+                  <FcGallery
+                    className=" cursor-pointer hover:scale-110 duration-300"
+                    size={30}
+                  />
+                )}
               </label>
             </form>
           </div>
