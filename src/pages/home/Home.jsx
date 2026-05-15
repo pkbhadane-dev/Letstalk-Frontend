@@ -6,7 +6,7 @@ export const Home = () => {
   return (
     <>
       <Heading />
-      <div className="flex flex-col md:flex-row justify-evenly items-center w-[100%] sm:w-[60%] h-auto sm:h-96 p-2.5 mt-6 m-auto">
+      <div className="flex flex-col gap-3 sm:gap-0.5 md:flex-row justify-evenly items-center w-[100%] sm:w-[60%] h-auto sm:h-96 p-2.5 mt-6 m-auto">
         <div className=" bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% p-3 rounded-sm w-[80%] sm:w-[35%] text-center leading-8 flex flex-col justify-evenly h-[50%]">
           <p className="text-[20px]">
             New User!
