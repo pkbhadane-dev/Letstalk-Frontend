@@ -6,8 +6,8 @@ export const Home = () => {
   return (
     <>
       <Heading />
-      <div className="flex flex-col md:flex-row justify-evenly items-center  bg-gradient-to-tr from-indigo-400 from-20% to-indigo-800 to-80% rounded-sm w-[60%] h-96 mt-6 m-auto">
-        <div className=" bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% p-3 rounded-sm w-[35%] text-center leading-8 flex flex-col justify-evenly h-[50%]">
+      <div className="flex flex-col md:flex-row justify-evenly items-center w-[100%] sm:w-[60%] h-auto sm:h-96 p-2.5 mt-6 m-auto">
+        <div className=" bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% p-3 rounded-sm w-[80%] sm:w-[35%] text-center leading-8 flex flex-col justify-evenly h-[50%]">
           <p className="text-[20px]">
             New User!
             <br />
@@ -20,7 +20,7 @@ export const Home = () => {
             Signup
           </Link>
         </div>
-        <div className="bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% p-3 rounded-sm text-center flex flex-col w-[35%] justify-evenly leading-8 h-[50%]">
+        <div className="bg-gradient-to-bl from-indigo-400 from-20% to-indigo-800 to-80% p-3 rounded-sm text-center flex flex-col w-[80%] sm:w-[35%] justify-evenly leading-8 h-[50%]">
           <p className="text-[20px]">
             Already Have An Account! <br /> Please Login
           </p>
